@@ -1,3 +1,4 @@
+
 #include "hardware.h"
 #include "channels.h"
 #include "io.h"
@@ -8,7 +9,7 @@ static int hardware_legal_floor(int floor, HardwareOrder order_type){
     int lower_floor = 0;
     int upper_floor = HARDWARE_NUMBER_OF_FLOORS - 1;
 
-    if(floor < lower_floor || floor > upper_floor){
+    if(floor < lower_floor || floor >= upper_floor){
         return 0;
     }
 
@@ -157,7 +158,7 @@ void hardware_command_floor_indicator_on(int floor){
         io_set_bit(LIGHT_FLOOR_IND2);
     }
     else{
-        io_clear_bit(LIGHT_FLOOR_IND2);
+        io_set_bit(LIGHT_FLOOR_IND2);
     }
 }
 
