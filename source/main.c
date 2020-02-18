@@ -29,4 +29,9 @@ int main(){
     }
 }
 
+<<<<<<< HEAD
 #Hallo
+=======
+
+"Hei"
+>>>>>>> 81a68c87f95e94ac6adb2d757746b4d9002dd95b
