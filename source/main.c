@@ -28,9 +28,3 @@ int main(){
         }
     }
 }
-
-
-#Hallo
-
-
-//hardware_init
