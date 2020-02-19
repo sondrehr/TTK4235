@@ -47,7 +47,6 @@ int main(){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
         }
 
-//hei
 //Holder heisen innenfor gyldig område
         if(hardware_read_floor_sensor(0)){
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
