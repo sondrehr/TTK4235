@@ -34,6 +34,10 @@ int main(){
 
 //Holder styr på hvilken etasje vi er i
     int current_floor;
+    bool at_floor;
+
+//Holder styr på hvilken modus vi er i
+    int state = init;
 
     signal(SIGINT, sigint_handler);
 
@@ -43,8 +47,14 @@ int main(){
     hardware_command_movement(HARDWARE_MOVEMENT_UP);
 
     while(1){
-        while(hardware_read_stop_signal()){
+
+        while (state == init){
+          hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          Read_floor();
+          if (at_floor){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+            state = Stationary_f;
+          }
         }
 
 //Holder heisen innenfor gyldig område
