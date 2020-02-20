@@ -6,27 +6,27 @@
 
 
 
-int door_state(int state){
-    return state;
+int door_state(state tilstand){
+    return tilstand;
 }
 
 
 
-void doorlogic(int door_open, state door_state){
-  if (door_open == 1 && door_state== closed) {
+void door_logic(state door_state){
+
+
+  if (door_state== closed) {
      start_timer();
-     obstruction = 1;
+     void hardware_command_door_open(1);
      door_state = open;
-     void hardware_command_door_open(door_open);
-     while (read_timer()){};
-     door_open = 0;
-     obstruction = 0;
-     void hardware_command_door_open(door_open);
+     while (read_timer(3)){};
+     void hardware_command_door_open(0);
      door_state = closed
 }
-
-
-
-bool Check_obstruction(bool obstruction){
-  return obstruction;
 }
+
+
+
+//bool Check_obstruction(bool obstruction){
+//  return obstruction;
+//}

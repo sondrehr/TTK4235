@@ -6,13 +6,13 @@ typedef enum {
    closed
 } state;
 
-_Bool obstruction;
+//_Bool obstruction;
 
-int door_state(int state);
+int door_state(state tilstand);
 
 //void open_door();
 //void close_door();
 
-void doorlogic();
+void door_logic();
 
-void Check_obstruction();
+//void Check_obstruction();
