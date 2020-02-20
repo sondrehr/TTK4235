@@ -1,7 +1,7 @@
 
 
 
-typdef enum {
+typedef enum {
    open,
    closed
 } state;

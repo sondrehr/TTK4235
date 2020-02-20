@@ -5,6 +5,7 @@
 #include "timer.h"
 
 
+
 int door_state(int state){
     return state;
 }
@@ -26,6 +27,6 @@ void doorlogic(int door_open, state door_state){
 
 
 
-bool Check_obstruction{
+bool Check_obstruction(bool obstruction){
   return obstruction;
 }
