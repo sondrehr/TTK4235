@@ -1,6 +1,10 @@
 
 
+<<<<<<< HEAD
 void read_floor(){
+=======
+void Read_floor(){
+>>>>>>> e2061a3b3bf9504c29e7e3bb16b6bdfb1ddc5d7f
   if (hardware_read_floor_sensor(0)){
     current_floor = 1;
     at_floor = true;
@@ -23,6 +27,7 @@ void read_floor(){
     at_floor = false;
   }
 }
+<<<<<<< HEAD
 
 void read_stop(){
   while(hardware_read_stop_signal()){
@@ -30,3 +35,5 @@ void read_stop(){
       //Slett kø
   }
 }
+=======
+>>>>>>> e2061a3b3bf9504c29e7e3bb16b6bdfb1ddc5d7f
