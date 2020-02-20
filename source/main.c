@@ -34,10 +34,7 @@ int main(){
 
 //Holder styr på hvilken etasje vi er i
     int current_floor;
-<<<<<<< HEAD
-=======
     bool at_floor;
->>>>>>> e2061a3b3bf9504c29e7e3bb16b6bdfb1ddc5d7f
 
 //Holder styr på hvilken modus vi er i
     int state = init;
@@ -53,17 +50,12 @@ int main(){
 
         while (state == init){
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-<<<<<<< HEAD
           read_floor();
           read_stop();
-=======
-          Read_floor();
->>>>>>> e2061a3b3bf9504c29e7e3bb16b6bdfb1ddc5d7f
           if (at_floor){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
             state = Stationary_f;
           }
-<<<<<<< HEAD
         }
 
         while (state == Stationary_f){
@@ -88,11 +80,6 @@ int main(){
 
 //Holder heisen innenfor gyldig område
 /*
-=======
-        }
-
-//Holder heisen innenfor gyldig område
->>>>>>> e2061a3b3bf9504c29e7e3bb16b6bdfb1ddc5d7f
         if(hardware_read_floor_sensor(0)){
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
         }
