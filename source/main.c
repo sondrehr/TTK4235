@@ -32,6 +32,12 @@ int main(){
         exit(1);
     }
 
+//Holder styr på hvilken etasje vi er i
+    int current_floor;
+
+//Holder styr på hvilken modus vi er i
+    int state = init;
+
     signal(SIGINT, sigint_handler);
 
     printf("=== Example Program ===\n");
@@ -40,17 +46,46 @@ int main(){
     hardware_command_movement(HARDWARE_MOVEMENT_UP);
 
     while(1){
-        while(hardware_read_stop_signal()){
+
+        while (state == init){
+          hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          read_floor();
+          read_stop();
+          if (at_floor){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+            state = Stationary_f;
+          }
         }
 
+        while (state == Stationary_f){
+          read_stop();
+        }
+
+        while (state == Stationary_n){
+          read_stop();
+        }
+
+        while (state == Up){
+          read_floor();
+          read_stop();
+        }
+
+        while (state == Down){
+          read_floor();
+          read_stop();
+        }
+
+
+
+//Holder heisen innenfor gyldig område
+/*
         if(hardware_read_floor_sensor(0)){
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
         }
         if(hardware_read_floor_sensor(HARDWARE_NUMBER_OF_FLOORS - 1)){
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
         }
-
+*/
         /* All buttons must be polled, like this: */
         for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
             if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){

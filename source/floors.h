@@ -8,3 +8,7 @@ typedef enum {
     Up,
     Stationary_n
 } FSM_state;
+
+void read_floor();
+
+void read_stop();
