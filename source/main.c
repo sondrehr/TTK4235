@@ -3,9 +3,10 @@
 #include <signal.h>
 #include "hardware.h"
 
-
+#include "timer.h"
 #include "door_logic.h"
 #include "floors.h"
+
 
 static void clear_all_order_lights(){
     HardwareOrder order_types[3] = {
@@ -29,6 +30,12 @@ static void sigint_handler(int sig){
     exit(0);
 }
 
+
+//Holder styr på hvilken etasje vi er i
+int current_floor;
+bool at_floor;
+
+
 int main(){
     int error = hardware_init();
     if(error != 0){
@@ -36,10 +43,6 @@ int main(){
         exit(1);
     }
 
-//Holder styr på hvilken etasje vi er i
-
-//int current_floor=0;
-//  _Bool at_floor = 0;
 
 //Holder styr på hvilken modus vi er i
     int state = Init;
@@ -81,7 +84,7 @@ int main(){
           read_stop();
         }
 
-        //printf("%d\n", current_floor);
+
 
 //Holder heisen innenfor gyldig område
 /*
