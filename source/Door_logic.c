@@ -11,19 +11,16 @@ int door_state(state tilstand){
 }
 
 
+void door_logic(){
 
-void door_logic(state door_state){
-
-
-  if (door_state== closed) {
      start_timer();
      void hardware_command_door_open(1);
-     door_state = open;
-     while (read_timer(3)){};
+
+     while (read_timer(3) && hardware_read_obstruction_signal()){};
+     //noe som holder døren oppe hvis obstruction er på
      void hardware_command_door_open(0);
-     door_state = closed
 }
-}
+
 
 
 
