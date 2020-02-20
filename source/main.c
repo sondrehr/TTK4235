@@ -3,7 +3,7 @@
 #include <signal.h>
 #include "hardware.h"
 
-#include "timer.h"
+
 #include "door_logic.h"
 #include "floors.h"
 
@@ -37,11 +37,12 @@ int main(){
     }
 
 //Holder styr på hvilken etasje vi er i
-    int current_floor;
-    bool at_floor;
+
+//int current_floor=0;
+//  _Bool at_floor = 0;
 
 //Holder styr på hvilken modus vi er i
-    int state = init;
+    int state = Init;
 
     signal(SIGINT, sigint_handler);
 
@@ -52,7 +53,7 @@ int main(){
 
     while(1){
 
-        while (state == init){
+        while (state == Init){
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           read_floor();
           read_stop();
@@ -80,7 +81,7 @@ int main(){
           read_stop();
         }
 
-
+        //printf("%d\n", current_floor);
 
 //Holder heisen innenfor gyldig område
 /*

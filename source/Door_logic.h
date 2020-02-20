@@ -6,7 +6,7 @@ typedef enum {
    closed
 } state;
 
-bool obstruction;
+_Bool obstruction;
 
 int door_state(int state);
 
