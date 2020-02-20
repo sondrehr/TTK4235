@@ -3,7 +3,7 @@
 
 typdef enum {
    open,
-   close
+   closed
 } state;
 
 bool obstruction;
