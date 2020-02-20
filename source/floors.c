@@ -1,3 +1,6 @@
+#include "floors.h"
+
+bool at_floor;
 
 
 void read_floor(){
