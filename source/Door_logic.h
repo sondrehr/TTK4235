@@ -2,16 +2,17 @@
 
 
 typdef enum {
-   Door_open,
-   Door_close
+   open,
+   close
 } state;
 
+bool obstruction;
 
+int door_state(int state);
 
-int door_state(int door_state);
+//void open_door();
+//void close_door();
 
-void open_door();
-
-void close_door();
+void doorlogic();
 
 void Check_obstruction();
