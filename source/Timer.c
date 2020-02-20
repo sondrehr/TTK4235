@@ -16,9 +16,9 @@ int read_timer(int seconds) {
   time(&end_value);
 
   if (difftime(end_value, prevalue) >= seconds) {
-  return 1}
+  return 0}
 
   else {
-    return 0;
+    return 1;
   }
 }

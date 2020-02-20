@@ -16,16 +16,14 @@ void doorlogic(int door_open, state door_state){
      start_timer();
      obstruction = true;
      void hardware_command_door_open(door_open);
-  }
-  else {
-    door_open = 0;
-    obstruction = false
-    void hardware_command_door_open(door_open);
-  }
+     while (read_timer()){};
+     door_open = 0;
+     obstruction = false
+     void hardware_command_door_open(door_open);
+}
 
-  while (read_timer()){};
-  door_open = 0;
-  obstruction = false
-  void hardware_command_door_open(door_open);
 
+
+bool Check_obstruction{
+  return obstruction;
 }
