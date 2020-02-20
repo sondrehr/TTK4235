@@ -1,6 +1,6 @@
 #include "timer.h"
 #include <stdio.h>
-#include <time.h>
+//#include <time.h>
 
 time pre_value;
 
@@ -15,7 +15,7 @@ int read_timer(int seconds) {
 
   time(&end_value);
 
-  if (difftime(end_value, prevalue) >= seconds) {
+  if (difftime(end_value, prevalue) <= seconds) {
   return 1}
 
   else {

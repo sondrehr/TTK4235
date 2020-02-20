@@ -8,6 +8,7 @@
 #include "floors.h"
 
 
+
 static void clear_all_order_lights(){
     HardwareOrder order_types[3] = {
         HARDWARE_ORDER_UP,
@@ -33,7 +34,7 @@ static void sigint_handler(int sig){
 
 //Holder styr på hvilken etasje vi er i
 int current_floor;
-bool at_floor;
+_Bool at_floor;
 
 
 int main(){
@@ -68,10 +69,14 @@ int main(){
 
         while (state == Stationary_f){
           read_stop();
+          door_logic();
+
+
         }
 
         while (state == Stationary_n){
           read_stop();
+
         }
 
         while (state == Up){

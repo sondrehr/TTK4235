@@ -8,7 +8,7 @@ typedef enum {
 
 //_Bool obstruction;
 
-int door_state(state tilstand);
+//int door_state(state tilstand);
 
 //void open_door();
 //void close_door();

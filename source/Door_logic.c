@@ -6,19 +6,19 @@
 
 
 
-int door_state(state tilstand){
-    return tilstand;
-}
+//int door_state(state tilstand){
+//    return tilstand;
+//}
 
 
 void door_logic(){
 
      start_timer();
-     void hardware_command_door_open(1);
+     hardware_command_door_open(1);
 
-     while (read_timer(3) && hardware_read_obstruction_signal()){};
+     while (read_timer(3) || hardware_read_obstruction_signal()){};
      //noe som holder døren oppe hvis obstruction er på
-     void hardware_command_door_open(0);
+     hardware_command_door_open(0);
 }
 
 
