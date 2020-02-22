@@ -3,7 +3,7 @@
 #include <signal.h>
 #include "hardware.h"
 
-#include "timer.h"
+//#include "timer.h"
 #include "door_logic.h"
 #include "floors.h"
 
