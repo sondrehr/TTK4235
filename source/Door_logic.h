@@ -1,11 +1,5 @@
 
 
-
-typedef enum {
-   open,
-   closed
-} state;
-
 //_Bool obstruction;
 
 //int door_state(state tilstand);

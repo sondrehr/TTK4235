@@ -14,4 +14,4 @@ _Bool at_floor;
 
 void read_floor();
 
-void read_stop();
+int read_stop();

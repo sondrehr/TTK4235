@@ -1,6 +1,7 @@
-//#include "main.c"
+
 #include "hardware.h"
 #include "floors.h"
+#include "Door_logic.h"
 #include <stdio.h>
 
 
@@ -26,24 +27,25 @@ void read_floor(){
   else {
     at_floor = 0;
   }
-  hardware_command_floor_indicator_on(current_floor);
+  hardware_command_floor_indicator_on(current_floor-1);
 }
 
 
-void read_stop(){
+int read_stop(){
   while(hardware_read_stop_signal()){
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       hardware_command_stop_light(1);
       if (at_floor){
-        door_logic();
+        //door_logic();
       }
       //Slett kø
   }
+  hardware_command_stop_light(0);
+  
   if (at_floor){
-    state = Stationary_f;
+    return Stationary_f;
   }
   else{
-    state = Stationary_n;
+    return Stationary_n;
   }
-  hardware_command_stop_light(0);
 }

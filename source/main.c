@@ -3,8 +3,8 @@
 #include <signal.h>
 #include "hardware.h"
 
-//#include "timer.h"
-#include "door_logic.h"
+#include "Timer.h"
+#include "Door_logic.h"
 #include "floors.h"
 
 
@@ -36,6 +36,8 @@ static void sigint_handler(int sig){
 int current_floor = 0;
 _Bool at_floor;
 
+//Holder styr på hvilken modus vi er i
+int state = Init;
 
 int main(){
     int error = hardware_init();
@@ -45,8 +47,7 @@ int main(){
     }
 
 
-//Holder styr på hvilken modus vi er i
-    int state = Init;
+
 //hei
     signal(SIGINT, sigint_handler);
 
@@ -62,7 +63,6 @@ int main(){
 
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           read_floor();
-          read_stop();
           if (at_floor){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
             state = Stationary_f;
@@ -71,18 +71,24 @@ int main(){
 
         while (state == Stationary_f){
           printf("Stationary_f\n");
-
+          
+          //
+          read_floor();
+          //
           hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-          read_stop();
-          door_logic();
+          state = read_stop();
+          //door_logic();
 
         }
 
         while (state == Stationary_n){
           printf("Stationary_n\n");
-
+          
+          //
+          read_floor();
+          //
           hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-          read_stop();
+          state = read_stop();
 
         }
 
@@ -91,7 +97,7 @@ int main(){
 
           hardware_command_movement(HARDWARE_MOVEMENT_UP);
           read_floor();
-          read_stop();
+          state = read_stop();
 
         }
 
@@ -100,7 +106,7 @@ int main(){
 
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           read_floor();
-          read_stop();
+          state = read_stop();
 
         }
 

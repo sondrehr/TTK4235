@@ -1,10 +1,11 @@
-#include "timer.h"
+
+#include "Timer.h"
 #include <stdio.h>
-//#include <time.h>
+#include <time.h>
 
-time pre_value;
+int pre_value;
 
-time end_value;
+int end_value;
 
 void start_timer(){
   time(&pre_value); //gir sekunder siden 1 jan 1970

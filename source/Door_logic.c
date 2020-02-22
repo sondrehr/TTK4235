@@ -1,8 +1,8 @@
 
 #include <stdio.h>
 #include "hardware.h"
-#include "door_logic.h"
-#include "timer.h"
+#include "Door_logic.h"
+#include "Timer.h"
 
 
 
