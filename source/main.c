@@ -47,7 +47,7 @@ int main(){
 
 //Holder styr på hvilken modus vi er i
     int state = Init;
-
+//hei
     signal(SIGINT, sigint_handler);
 
     printf("=== Example Program ===\n");
@@ -80,7 +80,7 @@ int main(){
 
         while (state == Stationary_n){
           printf("Stationary_n\n");
-          
+
           hardware_command_movement(HARDWARE_MOVEMENT_STOP);
           read_stop();
 
