@@ -34,7 +34,9 @@ void read_stop(){
   while(hardware_read_stop_signal()){
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       hardware_command_stop_light(1);
-      door_logic();
+      if (at_floor){
+        door_logic();
+      }
       //Slett kø
   }
   hardware_command_stop_light(0);
