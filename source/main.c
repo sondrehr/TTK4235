@@ -34,10 +34,10 @@ int main(){
 
 //Holder styr på hvilken etasje vi er i
     int current_floor;
-    bool at_floor;
+    _Bool at_floor;
 
 //Holder styr på hvilken modus vi er i
-    int state = init;
+    enum FSM_state state = Init;
 
     signal(SIGINT, sigint_handler);
 

@@ -1,13 +1,13 @@
 
 
-typedef enum {
+enum FSM_state{
     Init,
     Stationary_f,
     Stop,
     Down,
     Up,
     Stationary_n
-} FSM_state;
+};
 
 void read_floor();
 
