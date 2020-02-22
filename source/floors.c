@@ -39,5 +39,11 @@ void read_stop(){
       }
       //Slett kø
   }
+  if (at_floor){
+    state = Stationary_f;
+  }
+  else{
+    state = Stationary_n;
+  }
   hardware_command_stop_light(0);
 }
