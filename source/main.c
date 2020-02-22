@@ -33,7 +33,7 @@ static void sigint_handler(int sig){
 
 
 //Holder styr på hvilken etasje vi er i
-int current_floor;
+int current_floor = 0;
 _Bool at_floor;
 
 
@@ -58,6 +58,8 @@ int main(){
     while(1){
 
         while (state == Init){
+          printf("Init\n");
+
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           read_floor();
           read_stop();
@@ -68,25 +70,38 @@ int main(){
         }
 
         while (state == Stationary_f){
+          printf("Stationary_f\n");
+
+          hardware_command_movement(HARDWARE_MOVEMENT_STOP);
           read_stop();
           door_logic();
-
 
         }
 
         while (state == Stationary_n){
+          printf("Stationary_n\n");
+          
+          hardware_command_movement(HARDWARE_MOVEMENT_STOP);
           read_stop();
 
         }
 
         while (state == Up){
+          printf("Up\n");
+
+          hardware_command_movement(HARDWARE_MOVEMENT_UP);
           read_floor();
           read_stop();
+
         }
 
         while (state == Down){
+          printf("Down\n");
+
+          hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           read_floor();
           read_stop();
+
         }
 
 
