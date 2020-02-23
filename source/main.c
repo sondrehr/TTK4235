@@ -45,14 +45,14 @@ int last_direction;
 
 int main(){
     int error = hardware_init();
-    
+
     //Holder styr på ordrene
     int order_down[4] = {0,0,0,0};
     int order_up[4] = {0,0,0,0};
     int order_inside[4] = {0,0,0,0};
-    
+
     int next_order_queue[4] = {0,0,0,0};
-    
+
     if(error != 0){
         fprintf(stderr, "Unable to initialize hardware\n");
         exit(1);
@@ -77,19 +77,19 @@ int main(){
             state = Stationary_f;
           }
         }
-        
+
 //////////////////////////////////////////////////
 
         while (state == Stationary_f){
           printf("Stationary_f\n");
-          
+
           //
           read_floor();
           //
-          
+
       	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       	  last_direction = 0;
-          
+
           set_order_lights(1);
           ////
           if (at_floor){
@@ -97,8 +97,8 @@ int main(){
           }
           ////
           order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);        
-        
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
+
           if (hardware_read_stop_signal()){
             state = Stop;
           }
@@ -108,22 +108,22 @@ int main(){
 
         while (state == Stationary_n){
           printf("Stationary_n\n");
-          
+
           //
           read_floor();
           //
-          
-      	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);          
-          
+
+      	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
-          
+
           if (hardware_read_stop_signal()){
             state = Stop;
 		  }
         }
-        
+
 //////////////////////////////////////////////
 
         while (state == Up){
@@ -131,18 +131,18 @@ int main(){
 
           hardware_command_movement(HARDWARE_MOVEMENT_UP);
           last_direction = 1;
-          
+
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
-          
+
           read_floor();
-          
+
           if (hardware_read_stop_signal()){
             state = Stop;
 		  }
         }
-        
+
 /////////////////////////////////////////////
 
         while (state == Down){
@@ -150,42 +150,42 @@ int main(){
 
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           last_direction = 2;
-          
+
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
-          
+
           read_floor();
-          
+
           if (hardware_read_stop_signal()){
 	        state = Stop;
 		  }
         }
-        
+
 ////////////////////////////////////////////
-        
+
         while (state == Stop){
         	order_delete(order_inside, order_up, order_down);
         	set_order_lights(0);
-        	
+
         	while(hardware_read_stop_signal()){
       			hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       			hardware_command_stop_light(1);
       			if (at_floor){
       			  door_logic();
-     			}		
+     			}
  			}
- 			
+
  			hardware_command_stop_light(0);
- 			
+
  			if (at_floor){
     		  state = Stationary_f;
   			}
   			else{
     		  state = Stationary_n;
-  			}	
-        };
-        
+  			}
+      };
+
 /////////////////////////////////////////////
 
 
