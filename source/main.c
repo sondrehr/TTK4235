@@ -63,7 +63,7 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    hardware_command_movement(HARDWARE_MOVEMENT_UP);
+    //hardware_command_movement(HARDWARE_MOVEMENT_UP);
 
     while(1){
 
