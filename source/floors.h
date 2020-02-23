@@ -13,5 +13,3 @@ int current_floor;
 _Bool at_floor;
 
 void read_floor();
-
-int read_stop();

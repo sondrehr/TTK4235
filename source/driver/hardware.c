@@ -158,7 +158,7 @@ void hardware_command_floor_indicator_on(int floor){
         io_set_bit(LIGHT_FLOOR_IND2);
     }
     else{
-        io_set_bit(LIGHT_FLOOR_IND2);
+        io_clear_bit(LIGHT_FLOOR_IND2);
     }
 }
 
@@ -185,7 +185,7 @@ void hardware_command_order_light(int floor, HardwareOrder order_type, int on){
 
     int type_bit = hardware_order_type_bit(order_type);
 
-    if(on){
+    if(on == 1){
         io_set_bit(light_bit_lookup[floor][type_bit]);
     }
     else{

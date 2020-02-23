@@ -6,6 +6,7 @@
 #include "Timer.h"
 #include "Door_logic.h"
 #include "floors.h"
+#include "order_handler.h"
 
 
 
@@ -39,16 +40,24 @@ _Bool at_floor;
 //Holder styr på hvilken modus vi er i
 int state = Init;
 
+//Holder styr på siste retning (0 = stille, 1 = opp ,2 = ned)
+int last_direction;
+
 int main(){
     int error = hardware_init();
+    
+    //Holder styr på ordrene
+    int order_down[4] = {0,0,0,0};
+    int order_up[4] = {0,0,0,0};
+    int order_inside[4] = {0,0,0,0};
+    
+    int next_order_queue[4] = {0,0,0,0};
+    
     if(error != 0){
         fprintf(stderr, "Unable to initialize hardware\n");
         exit(1);
     }
 
-
-
-//hei
     signal(SIGINT, sigint_handler);
 
     printf("=== Example Program ===\n");
@@ -68,6 +77,8 @@ int main(){
             state = Stationary_f;
           }
         }
+        
+//////////////////////////////////////////////////
 
         while (state == Stationary_f){
           printf("Stationary_f\n");
@@ -75,11 +86,25 @@ int main(){
           //
           read_floor();
           //
-          hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-          state = read_stop();
-          //door_logic();
-
+          
+      	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+      	  last_direction = 0;
+          
+          set_order_lights(1);
+          ////
+          if (at_floor){
+          	update_lights(current_floor-1, order_inside, order_up, order_down);
+          }
+          ////
+          order_record(order_inside, order_up, order_down);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);        
+        
+          if (hardware_read_stop_signal()){
+            state = Stop;
+          }
         }
+
+///////////////////////////////////////////////
 
         while (state == Stationary_n){
           printf("Stationary_n\n");
@@ -87,64 +112,83 @@ int main(){
           //
           read_floor();
           //
-          hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-          state = read_stop();
-
+          
+      	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);          
+          
+          set_order_lights(1);
+          order_record(order_inside, order_up, order_down);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
+          
+          if (hardware_read_stop_signal()){
+            state = Stop;
+		  }
         }
+        
+//////////////////////////////////////////////
 
         while (state == Up){
           printf("Up\n");
 
           hardware_command_movement(HARDWARE_MOVEMENT_UP);
+          last_direction = 1;
+          
+          set_order_lights(1);
+          order_record(order_inside, order_up, order_down);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
+          
           read_floor();
-          state = read_stop();
-
+          
+          if (hardware_read_stop_signal()){
+            state = Stop;
+		  }
         }
+        
+/////////////////////////////////////////////
 
         while (state == Down){
           printf("Down\n");
 
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          last_direction = 2;
+          
+          set_order_lights(1);
+          order_record(order_inside, order_up, order_down);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue);
+          
           read_floor();
-          state = read_stop();
-
+          
+          if (hardware_read_stop_signal()){
+	        state = Stop;
+		  }
         }
+        
+////////////////////////////////////////////
+        
+        while (state == Stop){
+        	order_delete(order_inside, order_up, order_down);
+        	set_order_lights(0);
+        	
+        	while(hardware_read_stop_signal()){
+      			hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+      			hardware_command_stop_light(1);
+      			if (at_floor){
+      			  door_logic();
+     			}		
+ 			}
+ 			
+ 			hardware_command_stop_light(0);
+ 			
+ 			if (at_floor){
+    		  state = Stationary_f;
+  			}
+  			else{
+    		  state = Stationary_n;
+  			}	
+        };
+        
+/////////////////////////////////////////////
 
 
-
-//Holder heisen innenfor gyldig område
-/*
-        if(hardware_read_floor_sensor(0)){
-            hardware_command_movement(HARDWARE_MOVEMENT_UP);
-        }
-        if(hardware_read_floor_sensor(HARDWARE_NUMBER_OF_FLOORS - 1)){
-            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-        }
-*/
-        /* All buttons must be polled, like this: */
-        for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
-            if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
-                hardware_command_floor_indicator_on(f);
-            }
-        }
-
-        /* Lights are set and cleared like this: */
-        for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
-            /* Internal orders */
-            if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
-                hardware_command_order_light(f, HARDWARE_ORDER_INSIDE, 1);
-            }
-
-            /* Orders going up */
-            if(hardware_read_order(f, HARDWARE_ORDER_UP)){
-                hardware_command_order_light(f, HARDWARE_ORDER_UP, 1);
-            }
-
-            /* Orders going down */
-            if(hardware_read_order(f, HARDWARE_ORDER_DOWN)){
-                hardware_command_order_light(f, HARDWARE_ORDER_DOWN, 1);
-            }
-        }
 
         if(hardware_read_obstruction_signal()){
             hardware_command_stop_light(1);
