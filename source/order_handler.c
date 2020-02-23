@@ -45,11 +45,11 @@ void set_order_lights(int i){
         if(hardware_read_order(f, HARDWARE_ORDER_UP)){
             hardware_command_order_light(f, HARDWARE_ORDER_UP, 1);
         }
-        
+
         if(hardware_read_order(f, HARDWARE_ORDER_DOWN)){
             hardware_command_order_light(f, HARDWARE_ORDER_DOWN, 1);
         }
-        
+
         if(!i){
         	hardware_command_order_light(f, HARDWARE_ORDER_INSIDE, 0);
         	hardware_command_order_light(f, HARDWARE_ORDER_UP, 0);
@@ -62,7 +62,7 @@ void set_order_lights(int i){
 Slår av lys når man stopper på korresponderende etasje for å vise at bestillingen er tatt
 Fjerner også bestillingen
 */
-void update_lights(int floor, int *inside, int *up, int *down){
+void update_lights_and_orders(int floor, int *inside, int *up, int *down){
 	hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
 	hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
 	hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
@@ -74,7 +74,7 @@ void update_lights(int floor, int *inside, int *up, int *down){
 
 
 void insert_order(int *next_order_queue, int f){
-	
+
 }
 
 /*
@@ -90,28 +90,22 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
        		if(hardware_read_order(f, HARDWARE_ORDER_UP)){
         	    insert_order(next_order_queue, f);
         	}
-        
+
         	if(hardware_read_order(f, HARDWARE_ORDER_DOWN)){
         	    insert_order(next_order_queue, f);
         	}
 		}
 	}
-	
+
 	if (last_direction == 1){
 		for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
-		
+
 		}
 	}
-	
+
 	if (last_direction == 2){
 		for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
-		
+
 		}
 	}
 }
-
-
-        
-        
-        
-        

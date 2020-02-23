@@ -93,7 +93,7 @@ int main(){
           set_order_lights(1);
           ////
           if (at_floor){
-          	update_lights(current_floor-1, order_inside, order_up, order_down);
+          	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
           }
           ////
           order_record(order_inside, order_up, order_down);
