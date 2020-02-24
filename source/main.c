@@ -141,6 +141,31 @@ int main()
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
 
+
+          if (next_order_queue[0] == current_floor)
+          {
+            if (last_direction == 1)
+            {
+              state = Down;
+            }
+            else
+            {
+              state = Up
+            }
+          }
+          else
+          {
+            if (next_order_queue[0] > current_floor)
+            {
+              state = Up;
+            }
+            else
+            {
+              state = Down;
+            }
+          }
+
+
           if (hardware_read_stop_signal())
           {
             state = Stop;
