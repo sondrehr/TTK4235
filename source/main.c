@@ -227,7 +227,7 @@ int main()
 
           if (hardware_read_stop_signal())
           {
-	        state = Stop;
+	           state = Stop;
 		      }
         }
 
