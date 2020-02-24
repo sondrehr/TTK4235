@@ -11,8 +11,9 @@
 //}
 
 void door_logic(){
+	start_timer();
 	hardware_command_door_open(1);
-	while(hardware_read_obstruction_signal() || hardware_read_stop_signal()){};
+	while(read_timer(3) || hardware_read_obstruction_signal() || hardware_read_stop_signal()){};
 	hardware_command_door_open(0);
 }
 
