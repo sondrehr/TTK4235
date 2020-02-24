@@ -1,12 +1,5 @@
 
 
-//_Bool obstruction;
+void door_logic(int *inside, int *up, int *down, int *next, int current_floor, int last_direction);
 
-//int door_state(state tilstand);
 
-//void open_door();
-//void close_door();
-
-void door_logic();
-
-//void Check_obstruction();

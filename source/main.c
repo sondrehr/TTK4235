@@ -4,9 +4,10 @@
 #include "hardware.h"
 
 #include "Timer.h"
+#include "order_handler.h"
 #include "Door_logic.h"
 #include "floors.h"
-#include "order_handler.h"
+
 
 
 
@@ -73,7 +74,7 @@ int main()
 
         while (state == Stationary_f)
         {
-          //printf("Stationary_f\n");
+          printf("Stationary_f\n");
           
           ///////////////////////////////////
           
@@ -120,12 +121,24 @@ int main()
           	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
           }
           ////
-          
-          
+       
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
+		  
+		  update_queue(next_order_queue, current_floor);
 
-		state = Up;
+			
+		  if (next_order_queue[0] > current_floor)
+		  {
+		  	state = Up;
+		  	
+		  }
+
+		  if ((next_order_queue[0] < current_floor) && next_order_queue[0])
+		  {
+		  	state = Down;
+		  }
+
 
           if (hardware_read_stop_signal())
           {
@@ -163,21 +176,6 @@ int main()
           
           ///////////////////////////////////
           
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_inside[i]);
-          }
-          
-          printf("\t");
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_up[i]);
-          }
-          
-          printf("\t");
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_down[i]);
-          }
           
           printf("\t\t");
           
@@ -187,23 +185,25 @@ int main()
           
           printf("\n");
            
-          if (at_floor)
+          /////////////////////////////////       
+           
+          if (at_floor && next_order_queue[0] == current_floor)
           {
           	update_queue(next_order_queue, current_floor);
           	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
+          	
+          	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
+          	state = Stationary_f;
           }
-         
-          /////////////////////////////////          
+                         
 
-          //hardware_command_movement(HARDWARE_MOVEMENT_UP);
+          hardware_command_movement(HARDWARE_MOVEMENT_UP);
           last_direction = 1;
 
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
           
-
-
           read_floor();
 
           if (hardware_read_stop_signal())
@@ -221,30 +221,21 @@ int main()
           ///////////////////////////////////
           
           for (int i = 0; i < 4; i ++){
-          	printf("%d", order_inside[i]);
-          }
-          
-          printf("\t");
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_up[i]);
-          }
-          
-          printf("\t");
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_down[i]);
-          }
-          
-          printf("\t\t");
-          
-          for (int i = 0; i < 4; i ++){
           	printf("%d", next_order_queue[i]);
           }          
           
           printf("\n");
           
-          /////////////////////////////////          
+          /////////////////////////////////
+          
+          if (at_floor && next_order_queue[0] == current_floor)
+          {
+          	update_queue(next_order_queue, current_floor);
+          	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
+          	
+          	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
+          	state = Stationary_f;
+          }          
 
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           last_direction = 2;
@@ -273,7 +264,7 @@ int main()
        		hardware_command_stop_light(1);
       		if (at_floor)
       		{
-   			  door_logic();
+   			  door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
    			}
    	      }
 
