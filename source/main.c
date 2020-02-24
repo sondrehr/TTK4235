@@ -19,7 +19,7 @@ static void sigint_handler(int sig)
 
 
 //Holder styr på hvilken etasje vi er i
-int current_floor = 0;
+extern int current_floor = 0;
 _Bool at_floor;
 
 //Holder styr på hvilken modus vi er i
