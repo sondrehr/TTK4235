@@ -9,8 +9,6 @@
 #include "floors.h"
 
 
-
-
 static void sigint_handler(int sig)
 {
     (void)(sig);
@@ -75,74 +73,55 @@ int main()
         while (state == Stationary_f)
         {
           printf("Stationary_f\n");
-          
+
           ///////////////////////////////////
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_inside[i]);
-          }
-          
-          printf("\t");
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_up[i]);
-          }
-          
-          printf("\t");
-          
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", order_down[i]);
-          }
-          
-          printf("\t\t");
-          
+
           for (int i = 0; i < 4; i ++){
           	printf("%d", next_order_queue[i]);
-          	
-          }          
+
+          }
           printf("\n");
-          
+
           /////////////////////////////////
 
           //
           read_floor();
           //
-          
-          
+
+
 
       	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       	  last_direction = 0;
 
-		
-			
+
+
           set_order_lights(1);
           ////
           if (at_floor){
           	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
           }
           ////
-       
+
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
-		  
-		  update_queue(next_order_queue, current_floor);
 
-			
-		  if (next_order_queue[0] > current_floor)
-		  {
-		  	state = Up;
-		  	
-		  }
+		      update_queue(next_order_queue, current_floor);
 
-		  if ((next_order_queue[0] < current_floor) && next_order_queue[0])
-		  {
-		  	state = Down;
-		  }
+
+		      if (next_order_queue[0] > current_floor)
+		      {
+		  	       state = Up;
+		      }
+
+		      if ((next_order_queue[0] < current_floor) && next_order_queue[0])
+		      {
+		  	       state = Down;
+		      }
 
 
           if (hardware_read_stop_signal())
           {
-            state = Stop;
+              state = Stop;
           }
         }
 
@@ -165,7 +144,7 @@ int main()
           if (hardware_read_stop_signal())
           {
             state = Stop;
-		  }
+		      }
         }
 
 //////////////////////////////////////////////
@@ -173,29 +152,29 @@ int main()
         while (state == Up)
         {
           printf("Up\n");
-          
+
           ///////////////////////////////////
-          
-          
+
+
           printf("\t\t");
-          
+
           for (int i = 0; i < 4; i ++){
           	printf("%d", next_order_queue[i]);
-          }          
-          
+          }
+
           printf("\n");
-           
-          /////////////////////////////////       
-           
+
+          /////////////////////////////////
+
           if (at_floor && next_order_queue[0] == current_floor)
           {
           	update_queue(next_order_queue, current_floor);
           	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
-          	
+
           	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
           	state = Stationary_f;
           }
-                         
+
 
           hardware_command_movement(HARDWARE_MOVEMENT_UP);
           last_direction = 1;
@@ -203,13 +182,13 @@ int main()
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
           order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
-          
+
           read_floor();
 
           if (hardware_read_stop_signal())
           {
             state = Stop;
-		  }
+		      }
         }
 
 /////////////////////////////////////////////
@@ -217,25 +196,25 @@ int main()
         while (state == Down)
         {
           printf("Down\n");
-          
+
           ///////////////////////////////////
-          
+
           for (int i = 0; i < 4; i ++){
           	printf("%d", next_order_queue[i]);
-          }          
-          
+          }
+
           printf("\n");
-          
+
           /////////////////////////////////
-          
+
           if (at_floor && next_order_queue[0] == current_floor)
           {
           	update_queue(next_order_queue, current_floor);
           	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
-          	
+
           	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
           	state = Stationary_f;
-          }          
+          }
 
           hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           last_direction = 2;
@@ -249,7 +228,7 @@ int main()
           if (hardware_read_stop_signal())
           {
 	        state = Stop;
-		  }
+		      }
         }
 
 ////////////////////////////////////////////
@@ -259,26 +238,27 @@ int main()
           order_delete(order_inside, order_up, order_down, next_order_queue);
           set_order_lights(0);
 
-          while(hardware_read_stop_signal()){
-      		hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-       		hardware_command_stop_light(1);
-      		if (at_floor)
-      		{
-   			  door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
-   			}
+          while(hardware_read_stop_signal())
+          {
+      		    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+              hardware_command_stop_light(1);
+      	      if (at_floor)
+      		    {
+   			          door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
+   			      }
    	      }
 
- 		  hardware_command_stop_light(0);
+ 		      hardware_command_stop_light(0);
 
- 	      if (at_floor)
- 	      {
-    	    state = Stationary_f;
-  		  }
-  		  else
-  		  {
-            state = Stationary_n;
-  		  }
-      	};
+ 	        if (at_floor)
+ 	        {
+    	       state = Stationary_f;
+  		    }
+  		    else
+  		    {
+             state = Stationary_n;
+  		    }
+        };
 
 /////////////////////////////////////////////
 
