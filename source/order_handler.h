@@ -11,7 +11,7 @@ void update_queue(int *queue, int current_floor);
 
 void set_order_lights(int i);
 
-void order_handler(int *inside, int *up, int *down, int last_direction, int *next_order_queue, int current_floor);
+void order_handler(int *inside, int *up, int *down, int last_direction, int *next_order_queue, int current_floor, int state);
 
 void insert_order(int *next_order_queue, int f);
 

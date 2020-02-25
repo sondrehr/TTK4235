@@ -27,10 +27,10 @@ void door_logic(int *inside, int *up, int *down, int *next, int current_floor, i
 			start_timer();
 		}
 
-		order_record(inside, up, down);
-    order_handler(inside, up, down, last_direction, next, current_floor);
-    update_queue(next, current_floor);
-    update_lights_and_orders(current_floor-1, inside, up, down);
+		//order_record(inside, up, down);
+    	//order_handler(inside, up, down, last_direction, next, current_floor);
+    	//update_queue(next, current_floor);
+    	//update_lights_and_orders(current_floor-1, inside, up, down);
 	};
 	hardware_command_door_open(0);
 }

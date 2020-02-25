@@ -122,9 +122,9 @@ void insert_order(int *next_order_queue, int f)
 /*
 Tar inn alle ordre og returnerer en liste med de neste ordrene i rekkefølge
 */
-void order_handler(int *inside, int *up, int *down, int last_direction, int *next_order_queue, int current_floor)
+void order_handler(int *inside, int *up, int *down, int last_direction, int *next_order_queue, int current_floor, int state)
 {	
-	if (last_direction == 0)
+	if (last_direction == 0 || state == 5)
 	{
 		for(int f = 0; f < 4; f++)
 		{
@@ -190,7 +190,7 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					}
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
-						next_order_queue[g] = (f+1);
+						next_order_queue[g] = f+1;
 						duplicate = 1;
 					}				
 					
