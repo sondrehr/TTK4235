@@ -94,12 +94,6 @@ int main()
 
           /////////////////////////////////
 
-          //
-          //read_floor();
-          //
-
-
-
       	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       	  last_direction = 0;
 
@@ -140,17 +134,14 @@ int main()
 
         while (state == Stationary_n)
         {
-        
+
           printf("Stationary_n\n");
-          
+
           /*printf("next_order_queue[0]: %d\t", next_order_queue[0]);
           printf("current_floor: %d\t", current_floor);
           printf("state: %d\t", state);
           printf("last_direction: %d\n", last_direction);
 */
-          //
-          //read_floor();
-          //
 
       	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
 
@@ -212,11 +203,11 @@ int main()
           	state = Stationary_f;
           }
 
-		  if (current_floor != 3)
-		  {
+		      if (current_floor != 3)
+		      {
           	hardware_command_movement(HARDWARE_MOVEMENT_UP);
           }
-          
+
           last_direction = 1;
 
           set_order_lights(1);
@@ -228,7 +219,7 @@ int main()
           if (hardware_read_stop_signal())
           {
             state = Stop;
-		  }
+          }
         }
 
 /////////////////////////////////////////////
@@ -253,12 +244,12 @@ int main()
           	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
           	state = Stationary_f;
           }
-          
+
           if (current_floor != 0)
-		  {
+		      {
           	hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           }
-          
+
           last_direction = 2;
 
           set_order_lights(1);
@@ -269,8 +260,8 @@ int main()
 
           if (hardware_read_stop_signal())
           {
-	        state = Stop;
-		  }
+	           state = Stop;
+		      }
         }
 
 ////////////////////////////////////////////

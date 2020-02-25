@@ -9,29 +9,29 @@ Lagrer alle ordre
 */
 void order_record(int *inside, int *up, int *down)
 {
-	for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
-	{
-        if(hardware_read_order(f, HARDWARE_ORDER_INSIDE))
-        {
-          	inside[f] = 1;
-        }
-    }
+	 for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
+	 {
+      if(hardware_read_order(f, HARDWARE_ORDER_INSIDE))
+      {
+        	inside[f] = 1;
+  		}
+   }
 
-    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
-    {
-        if(hardware_read_order(f, HARDWARE_ORDER_UP))
-        {
-           	up[f] = 1;
-        }
-    }
+   for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
+   {
+      if(hardware_read_order(f, HARDWARE_ORDER_UP))
+      {
+         	up[f] = 1;
+      }
+   }
 
-    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
-    {
-        if(hardware_read_order(f, HARDWARE_ORDER_DOWN))
-        {
-          	down[f] = 1;
-        }
-    }
+   for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
+   {
+      if(hardware_read_order(f, HARDWARE_ORDER_DOWN))
+      {
+        	down[f] = 1;
+      }
+   }
 }
 
 /*
@@ -39,14 +39,14 @@ Sletter alle ordre
 */
 void order_delete(int *inside, int *up, int *down, int *next)
 {
-	for (int i = 0; i < 4; i ++)
-	{
-		inside[i] = 0;
-		up[i] = 0;
-		down[i] = 0;
-		
-		next[i] = 0;
-	}
+	 for (int i = 0; i < 4; i ++)
+	 {
+		  inside[i] = 0;
+		  up[i] = 0;
+		  down[i] = 0;
+
+	  	next[i] = 0;
+	 }
 }
 
 /*
@@ -86,12 +86,12 @@ Fjerner også bestillingen
 */
 void update_lights_and_orders(int floor, int *inside, int *up, int *down)
 {
-	hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
-	hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
-	hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
-	inside[floor] = 0;
-	up[floor] = 0;
-	down[floor] = 0;
+	 hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
+	 hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
+	 hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
+	 inside[floor] = 0;
+	 up[floor] = 0;
+	 down[floor] = 0;
 }
 
 
@@ -123,7 +123,7 @@ void update_queue(int *queue, int current_floor)
 Tar inn alle ordre og returnerer en liste med de neste ordrene i rekkefølge
 */
 void order_handler(int *inside, int *up, int *down, int last_direction, int *next_order_queue, int current_floor, int state)
-{	
+{
 	if (last_direction == 0 || state == 5)
 	{
 		for(int f = 0; f < 4; f++)
@@ -137,14 +137,14 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					{
 						duplicate = 1;
 					}
-					
+
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
 						next_order_queue[g] = f+1;
 						duplicate = 1;
-					}				
-				}				
-			} 
+					}
+				}
+			}
 		}
 	}
 
@@ -161,19 +161,19 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					{
 						duplicate = 1;
 					}
-					
+
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
 						next_order_queue[g] = f+1;
 						duplicate = 1;
-					}				
-					
+					}
+
 					if (f < (next_order_queue[0]-1) && f > (current_floor-1))
 					{
 						swap(next_order_queue, 0, g);
 					}
-				}				
-			} 
+				}
+			}
 		}
 	}
 
@@ -190,19 +190,19 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					{
 						duplicate = 1;
 					}
-					
+
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
 						next_order_queue[g] = f+1;
 						duplicate = 1;
-					}				
-					
+					}
+
 					if (f > (next_order_queue[0]-1) && f < (current_floor-1))
 					{
 						swap(next_order_queue, 0, g);
 					}
-				}				
-			} 
+				}
+			}
 		}
 	}
 }

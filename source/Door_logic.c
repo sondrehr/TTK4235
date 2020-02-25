@@ -7,7 +7,8 @@
 
 
 
-void door_logic(int *inside, int *up, int *down, int *next, int current_floor, int last_direction){
+void door_logic(int *inside, int *up, int *down, int *next, int current_floor, int last_direction)
+{
 
 	hardware_command_movement(HARDWARE_MOVEMENT_STOP);
 	start_timer();
