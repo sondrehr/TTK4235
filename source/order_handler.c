@@ -4,7 +4,9 @@
 #include "hardware.h"
 
 
-/*Lagrer alle ordre*/
+/*
+Lagrer alle ordre
+*/
 void order_record(int *inside, int *up, int *down)
 {
 	for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
@@ -32,7 +34,9 @@ void order_record(int *inside, int *up, int *down)
     }
 }
 
-/*Sletter alle ordre*/
+/*
+Sletter alle ordre
+*/
 void order_delete(int *inside, int *up, int *down, int *next)
 {
 	for (int i = 0; i < 4; i ++)
@@ -45,7 +49,9 @@ void order_delete(int *inside, int *up, int *down, int *next)
 	}
 }
 
-/*Setter og slår av alle ordrelys*/
+/*
+Setter og slår av alle ordrelys
+*/
 void set_order_lights(int i){
     for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
     {
@@ -112,12 +118,6 @@ void update_queue(int *queue, int current_floor)
 	}
 }
 
-void insert_order(int *next_order_queue, int f)
-{
-
-}
-
-
 
 /*
 Tar inn alle ordre og returnerer en liste med de neste ordrene i rekkefølge
@@ -137,6 +137,7 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					{
 						duplicate = 1;
 					}
+					
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
 						next_order_queue[g] = f+1;
@@ -152,7 +153,7 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 		for(int f = 0; f < 4; f++)
 		{
 			int duplicate = 0;
-			if (up[f] || inside [f])
+			if ((up[f] && ((f+1) > current_floor)) || inside [f])
 			{
 				for (int g = 0; g < 4; g ++)
 				{
@@ -160,6 +161,7 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					{
 						duplicate = 1;
 					}
+					
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
 						next_order_queue[g] = f+1;
@@ -180,7 +182,7 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 		for(int f = 0; f < 4; f++)
 		{
 			int duplicate = 0;
-			if (down[f] || inside[f])
+			if ((down[f] && ((f+1) < current_floor)) || inside[f])
 			{
 				for (int g = 0; g < 4; g ++)
 				{
@@ -188,6 +190,7 @@ void order_handler(int *inside, int *up, int *down, int last_direction, int *nex
 					{
 						duplicate = 1;
 					}
+					
 					if (next_order_queue[g] == 0 && !duplicate)
 					{
 						next_order_queue[g] = f+1;

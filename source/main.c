@@ -28,6 +28,8 @@ Holder styr på hvilke etasjer vi er mellom
 */
 _Bool above_floor = 0;
 
+
+//Sier om vi er på en etasje
 _Bool at_floor;
 
 //Holder styr på hvilken modus vi er i
@@ -93,7 +95,7 @@ int main()
           /////////////////////////////////
 
           //
-          read_floor();
+          //read_floor();
           //
 
 
@@ -147,7 +149,7 @@ int main()
           printf("last_direction: %d\n", last_direction);
 */
           //
-          read_floor();
+          //read_floor();
           //
 
       	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
@@ -210,8 +212,11 @@ int main()
           	state = Stationary_f;
           }
 
-
-          hardware_command_movement(HARDWARE_MOVEMENT_UP);
+		  if (current_floor != 3)
+		  {
+          	hardware_command_movement(HARDWARE_MOVEMENT_UP);
+          }
+          
           last_direction = 1;
 
           set_order_lights(1);
@@ -248,8 +253,12 @@ int main()
           	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
           	state = Stationary_f;
           }
-
-          hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          
+          if (current_floor != 0)
+		  {
+          	hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          }
+          
           last_direction = 2;
 
           set_order_lights(1);
