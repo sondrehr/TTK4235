@@ -245,7 +245,7 @@ int main()
           	state = Stationary_f;
           }
 
-          if (current_floor != 0)
+          if (current_floor != 1)
 		      {
           	hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
           }
