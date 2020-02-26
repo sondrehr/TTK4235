@@ -203,7 +203,7 @@ int main()
           	state = Stationary_f;
           }
 
-		      if (current_floor != 3)
+		      if (current_floor != 4)
 		      {
           	hardware_command_movement(HARDWARE_MOVEMENT_UP);
           }
