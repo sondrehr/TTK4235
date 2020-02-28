@@ -1,7 +1,7 @@
 
 #include "hardware.h"
 #include "floors.h"
-#include "Door_logic.h"
+#include "Door_logic.h" //er vel ikke nødvendig med denne heller?
 #include <stdio.h>
 
 
