@@ -1,21 +1,26 @@
-//#include <stdio.h>
-//#include <time.h>
+/*
+@file
+*brief Timer for the elevator
 
-//#indef Lib_h
-//#define Lib_h
+*/
+
+/*
+@brief Initializes a time with a set
+value since a given date (1/1 - 1970)
+*/
+
+void start_timer();
+
+/*
+@brief Compares the difference between the time initizalized
+by @c start_timer and the current time since the given date
+1/1-1970 with @p seconds.
+*
+@param seconds Seconds to comapre time difference with
+*
+@retrun 1 if difference between times is smaller or equal than
+3 seconds. Returns 0 otherwice
+*/
 
 
-
-//Funskjoner for timer
-
-void start_timer(); //starter timer
-
-
-//sammenligner ti tider og ser om differansen
-// er større enn opgitt sekunder
-//returnerer 1 dersom oppfylt, 0 ellers
 int read_timer(int seconds);
-
-
-
-//#endif
