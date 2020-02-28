@@ -38,6 +38,8 @@ int state = Init;
 //Holder styr på siste retning (0 = stille, 1 = opp ,2 = ned)
 int last_direction;
 
+
+
 int main()
 {
     int error = hardware_init();
