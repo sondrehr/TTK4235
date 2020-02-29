@@ -5,24 +5,7 @@
 
 #include <stdlib.h>
 
-static int hardware_legal_floor(int floor, HardwareOrder order_type){
-    int lower_floor = 0;
-    int upper_floor = HARDWARE_NUMBER_OF_FLOORS - 1;
 
-    if(floor < lower_floor || floor >= upper_floor){
-        return 0;
-    }
-
-    if(floor == lower_floor && order_type == HARDWARE_ORDER_DOWN){
-        return 0;
-    }
-
-    if(floor == upper_floor && order_type == HARDWARE_ORDER_UP){
-        return 0;
-    }
-
-    return 1;
-}
 
 static int hardware_order_type_bit(HardwareOrder order_type){
     int type_bit;
@@ -121,9 +104,6 @@ int hardware_read_floor_sensor(int floor){
 }
 
 int hardware_read_order(int floor, HardwareOrder order_type){
-    if(!hardware_legal_floor(floor, order_type)){
-        return 0;
-    }
 
     static const int order_bit_lookup[][3] = {
         {BUTTON_UP1, BUTTON_DOWN1, BUTTON_COMMAND1},
@@ -172,9 +152,7 @@ void hardware_command_stop_light(int on){
 }
 
 void hardware_command_order_light(int floor, HardwareOrder order_type, int on){
-    if(!hardware_legal_floor(floor, order_type)){
-        return;
-    }
+
 
     static const int light_bit_lookup[][3] = {
         {LIGHT_UP1, LIGHT_DOWN1, LIGHT_COMMAND1},
