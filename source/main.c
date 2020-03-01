@@ -19,7 +19,17 @@ static void sigint_handler(int sig)
 
 
 //Holder styr på hvilken etasje vi er i
-extern int current_floor = 0;
+int current_floor = 0;
+
+/*
+0 - under current_floor
+1 - over current_floor
+Holder styr på hvilke etasjer vi er mellom
+*/
+_Bool above_floor = 0;
+
+
+//Sier om vi er på en etasje
 _Bool at_floor;
 
 //Holder styr på hvilken modus vi er i
@@ -27,6 +37,8 @@ int state = Init;
 
 //Holder styr på siste retning (0 = stille, 1 = opp ,2 = ned)
 int last_direction;
+
+
 
 int main()
 {
@@ -80,74 +92,67 @@ int main()
     }
     printf("\n");
 
-    /////////////////////////////////
-
-    //
-    read_floor();
-    //
+ 	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+ 	  last_direction = 0;
 
 
 
-    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    last_direction = 0;
 
-
-
-    set_order_lights(1);
-    ////
-    if (at_floor){
-      update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
-    }
-    ////
+          order_record(order_inside, order_up, order_down);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
     order_record(order_inside, order_up, order_down);
     order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
 
 		update_queue(next_order_queue, current_floor);
 
-		if (next_order_queue[0] > current_floor)
-		{
-		  state = Up;
-		}
+    if (next_order_queue[0] > current_floor)
+    {
+      state = Up;
+      above_floor = 1;
+    }
 
-		      if ((next_order_queue[0] < current_floor) && next_order_queue[0])
-		      {
-		  	       state = Down;
-		      }
+    if ((next_order_queue[0] < current_floor) && next_order_queue[0])
+    {
+      state = Down;
+      above_floor = 0;
+    }
 
-
-          if (hardware_read_stop_signal())
-          {
-              state = Stop;
-          }
-        }
+    if (hardware_read_stop_signal())
+    {
+      state = Stop;
+    }
+  }
 
 ///////////////////////////////////////////////
 
         while (state == Stationary_n)
         {
+
           printf("Stationary_n\n");
 
-          //
-          read_floor();
-          //
+          /*printf("next_order_queue[0]: %d\t", next_order_queue[0]);
+          printf("current_floor: %d\t", current_floor);
+          printf("state: %d\t", state);
+          printf("last_direction: %d\n", last_direction);
+*/
 
       	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
 
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
 
           if (next_order_queue[0] == current_floor)
           {
-            if (last_direction == 1)
+            if (above_floor)
             {
               state = Down;
             }
             else
             {
-              state = Up
+              state = Up;
             }
           }
           else
@@ -156,7 +161,7 @@ int main()
             {
               state = Up;
             }
-            else
+            else if (next_order_queue[0] < current_floor && next_order_queue[0])
             {
               state = Down;
             }
@@ -176,16 +181,11 @@ int main()
           printf("Up\n");
 
           ///////////////////////////////////
-
-
-          printf("\t\t");
-
           for (int i = 0; i < 4; i ++){
           	printf("%d", next_order_queue[i]);
           }
 
           printf("\n");
-
           /////////////////////////////////
 
           if (at_floor && next_order_queue[0] == current_floor)
@@ -197,20 +197,23 @@ int main()
           	state = Stationary_f;
           }
 
+		      if (current_floor != 4)
+		      {
+          	hardware_command_movement(HARDWARE_MOVEMENT_UP);
+          }
 
-          hardware_command_movement(HARDWARE_MOVEMENT_UP);
           last_direction = 1;
 
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
           read_floor();
 
           if (hardware_read_stop_signal())
           {
             state = Stop;
-		      }
+          }
         }
 
 /////////////////////////////////////////////
@@ -220,13 +223,11 @@ int main()
           printf("Down\n");
 
           ///////////////////////////////////
-
           for (int i = 0; i < 4; i ++){
           	printf("%d", next_order_queue[i]);
           }
 
           printf("\n");
-
           /////////////////////////////////
 
           if (at_floor && next_order_queue[0] == current_floor)
@@ -238,12 +239,16 @@ int main()
           	state = Stationary_f;
           }
 
-          hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          if (current_floor != 1)
+		      {
+          	hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+          }
+
           last_direction = 2;
 
           set_order_lights(1);
           order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
+          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
           read_floor();
 

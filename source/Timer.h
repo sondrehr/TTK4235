@@ -1,14 +1,19 @@
-//#include <stdio.h>
-//#include <time.h>
+/**
+ * @file
+ * @brief functions that setup timers used to open the door
+ */
 
+/**
+@brief Initializes a time with a set value since a given date (1/1 - 1970)
+*/
+void start_timer();
 
-
-//Funskjoner for timer
-
-void start_timer(); //starter timer
-
-
-//sammenligner ti tider og ser om differansen
-// er større enn opgitt sekunder
-//returnerer 1 dersom oppfylt, 0 ellers
+/**
+*@brief Compares the difference between the time initizalized by @c start_timer and the current time since the given date 1/1-1970 with @p seconds.
+*
+*@param [in] seconds The number of seconds the function should return true.
+*
+*@retrun 1 if difference between times is smaller or equal than
+3 seconds. Returns 0 otherwice
+*/
 int read_timer(int seconds);
