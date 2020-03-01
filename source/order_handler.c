@@ -4,6 +4,7 @@
 #include "hardware.h"
 
 
+
 /*
 Lagrer alle ordre
 */
@@ -33,6 +34,7 @@ void order_record(int *inside, int *up, int *down)
       }
    }
 }
+
 
 /*
 Sletter alle ordre
