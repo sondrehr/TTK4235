@@ -1,4 +1,4 @@
-/*
+/**
 @file
 @brief Logic for whenever the door would open. Uses timer.h
 and stops for 3 seconds when the door would open.

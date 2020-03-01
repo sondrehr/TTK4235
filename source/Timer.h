@@ -1,4 +1,4 @@
-/*
+/**
 @file
 *brief Timer for the elevator
 
