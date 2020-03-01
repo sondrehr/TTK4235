@@ -10,28 +10,28 @@ Lagrer alle ordre
 */
 void order_record(int *inside, int *up, int *down)
 {
-	 for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
-	 {
-      if(hardware_read_order(f, HARDWARE_ORDER_INSIDE))
-      {
-        	inside[f] = 1;
+    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
+	{
+        if(hardware_read_order(f, HARDWARE_ORDER_INSIDE))
+        {
+            inside[f] = 1;
   		}
    }
 
    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
    {
-      if(hardware_read_order(f, HARDWARE_ORDER_UP))
-      {
+        if(hardware_read_order(f, HARDWARE_ORDER_UP))
+        {
          	up[f] = 1;
-      }
+        }
    }
 
    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++)
    {
-      if(hardware_read_order(f, HARDWARE_ORDER_DOWN))
-      {
+        if(hardware_read_order(f, HARDWARE_ORDER_DOWN))
+        {
         	down[f] = 1;
-      }
+        }
    }
 }
 
@@ -41,14 +41,14 @@ Sletter alle ordre
 */
 void order_delete(int *inside, int *up, int *down, int *next)
 {
-	 for (int i = 0; i < 4; i ++)
-	 {
-		  inside[i] = 0;
-		  up[i] = 0;
-		  down[i] = 0;
+	for (int i = 0; i < 4; i ++)
+	{
+	    inside[i] = 0;
+	    up[i] = 0;
+	    down[i] = 0;
 
 	  	next[i] = 0;
-	 }
+	}
 }
 
 /*
@@ -88,12 +88,12 @@ Fjerner også bestillingen
 */
 void update_lights_and_orders(int floor, int *inside, int *up, int *down)
 {
-	 hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
-	 hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
-	 hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
-	 inside[floor] = 0;
-	 up[floor] = 0;
-	 down[floor] = 0;
+	hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
+	hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
+	hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
+	inside[floor] = 0;
+	up[floor] = 0;
+	down[floor] = 0;
 }
 
 

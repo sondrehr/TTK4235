@@ -17,8 +17,10 @@ int read_timer(int seconds) {
 
   time(&end_value);
 
- if ((end_value-pre_value) <= seconds){
-  return 1;}
+  if ((end_value-pre_value) <= seconds)
+  {
+    return 1;
+  }
 
   else {
     return 0;

@@ -95,11 +95,8 @@ int main()
  	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
  	  last_direction = 0;
 
-
-
-
-          order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
+    order_record(order_inside, order_up, order_down);
+    order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
 		update_queue(next_order_queue, current_floor);
 
@@ -123,167 +120,160 @@ int main()
 
 ///////////////////////////////////////////////
 
-        while (state == Stationary_n)
-        {
+  while (state == Stationary_n)
+  {
 
-          printf("Stationary_n\n");
+    printf("Stationary_n\n");
 
-          /*printf("next_order_queue[0]: %d\t", next_order_queue[0]);
-          printf("current_floor: %d\t", current_floor);
-          printf("state: %d\t", state);
-          printf("last_direction: %d\n", last_direction);
-*/
+    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
 
-      	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-
-          set_order_lights(1);
-          order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
+    set_order_lights(1);
+    order_record(order_inside, order_up, order_down);
+    order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
 
-          if (next_order_queue[0] == current_floor)
-          {
-            if (above_floor)
-            {
-              state = Down;
-            }
-            else
-            {
-              state = Up;
-            }
-          }
-          else
-          {
-            if (next_order_queue[0] > current_floor)
-            {
-              state = Up;
-            }
-            else if (next_order_queue[0] < current_floor && next_order_queue[0])
-            {
-              state = Down;
-            }
-          }
+    if (next_order_queue[0] == current_floor)
+    {
+      if (above_floor)
+      {
+        state = Down;
+      }
+      else
+      {
+        state = Up;
+      }
+    }
+    else
+    {
+      if (next_order_queue[0] > current_floor)
+      {
+        state = Up;
+      }
+      else if (next_order_queue[0] < current_floor && next_order_queue[0])
+      {
+        state = Down;
+      }
+    }
 
 
-          if (hardware_read_stop_signal())
-          {
-            state = Stop;
-		      }
-        }
+    if (hardware_read_stop_signal())
+    {
+      state = Stop;
+    }
+  }
 
 //////////////////////////////////////////////
 
-        while (state == Up)
-        {
-          printf("Up\n");
+  while (state == Up)
+  {
+    printf("Up\n");
 
-          ///////////////////////////////////
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", next_order_queue[i]);
-          }
+    ///////////////////////////////////
+    for (int i = 0; i < 4; i ++){
+     	printf("%d", next_order_queue[i]);
+    }
 
-          printf("\n");
-          /////////////////////////////////
+    printf("\n");
+    /////////////////////////////////
 
-          if (at_floor && next_order_queue[0] == current_floor)
-          {
-          	update_queue(next_order_queue, current_floor);
-          	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
+    if (at_floor && next_order_queue[0] == current_floor)
+    {
+     	update_queue(next_order_queue, current_floor);
+     	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
 
-          	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
-          	state = Stationary_f;
-          }
+     	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
+     	state = Stationary_f;
+    }
 
-		      if (current_floor != 4)
-		      {
-          	hardware_command_movement(HARDWARE_MOVEMENT_UP);
-          }
+    if (current_floor != 4)
+    {
+     	hardware_command_movement(HARDWARE_MOVEMENT_UP);
+    }
 
-          last_direction = 1;
+    last_direction = 1;
 
-          set_order_lights(1);
-          order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
+    set_order_lights(1);
+    order_record(order_inside, order_up, order_down);
+    order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
-          read_floor();
+    read_floor();
 
-          if (hardware_read_stop_signal())
-          {
-            state = Stop;
-          }
-        }
+    if (hardware_read_stop_signal())
+    {
+      state = Stop;
+    }
+  }
 
 /////////////////////////////////////////////
 
-        while (state == Down)
-        {
-          printf("Down\n");
+  while (state == Down)
+  {
+    printf("Down\n");
 
-          ///////////////////////////////////
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", next_order_queue[i]);
-          }
+///////////////////////////////////
+    for (int i = 0; i < 4; i ++){
+     	printf("%d", next_order_queue[i]);
+    }
 
-          printf("\n");
-          /////////////////////////////////
+    printf("\n");
+ /////////////////////////////////
 
-          if (at_floor && next_order_queue[0] == current_floor)
-          {
-          	update_queue(next_order_queue, current_floor);
-          	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
+    if (at_floor && next_order_queue[0] == current_floor)
+    {
+     	update_queue(next_order_queue, current_floor);
+     	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
 
-          	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
-          	state = Stationary_f;
-          }
+     	door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
+     	state = Stationary_f;
+    }
 
-          if (current_floor != 1)
-		      {
-          	hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-          }
+    if (current_floor != 1)
+    {
+     	hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+    }
 
-          last_direction = 2;
+    last_direction = 2;
 
-          set_order_lights(1);
-          order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
+    set_order_lights(1);
+    order_record(order_inside, order_up, order_down);
+    order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor, state);
 
-          read_floor();
-
-          if (hardware_read_stop_signal())
-          {
-	           state = Stop;
-		      }
-        }
+    read_floor();
+    if (hardware_read_stop_signal())
+    {
+      state = Stop;
+    }
+  }
 
 ////////////////////////////////////////////
 
-        while (state == Stop)
-        {
-          order_delete(order_inside, order_up, order_down, next_order_queue);
-          set_order_lights(0);
+  while (state == Stop)
+  {
+    order_delete(order_inside, order_up, order_down, next_order_queue);
+    set_order_lights(0);
 
-          while(hardware_read_stop_signal())
-          {
-      		    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-              hardware_command_stop_light(1);
-      	      if (at_floor)
-      		    {
-   			          door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
-   			      }
-   	      }
-
- 		      hardware_command_stop_light(0);
-
- 	        if (at_floor)
- 	        {
-    	       state = Stationary_f;
-  		    }
-  		    else
-  		    {
-             state = Stationary_n;
-  		    }
-        };
-
+    while(hardware_read_stop_signal())
+    {
+	    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+      hardware_command_stop_light(1);
+      if (at_floor)
+	    {
+        door_logic(order_inside, order_up, order_down, next_order_queue, current_floor, last_direction);
+      }
     }
-    return 0;
+
+    hardware_command_stop_light(0);
+
+    if (at_floor)
+    {
+      state = Stationary_f;
+    }
+    else
+    {
+      state = Stationary_n;
+    }
+  };
+
+  }
+  return 0;
 }
