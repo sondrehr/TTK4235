@@ -11,10 +11,10 @@
 
 static void sigint_handler(int sig)
 {
-    (void)(sig);
-    printf("Terminating elevator\n");
-    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    exit(0);
+  (void)(sig);
+  printf("Terminating elevator\n");
+  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+  exit(0);
 }
 
 
@@ -30,88 +30,85 @@ int last_direction;
 
 int main()
 {
-    int error = hardware_init();
+  int error = hardware_init();
 
-    //Holder styr på ordrene
-    int order_down[4] = {0,0,0,0};
-    int order_up[4] = {0,0,0,0};
-    int order_inside[4] = {0,0,0,0};
+  //Holder styr på ordrene
+  int order_down[4] = {0,0,0,0};
+  int order_up[4] = {0,0,0,0};
+  int order_inside[4] = {0,0,0,0};
 
-    int next_order_queue[4] = {0,0,0,0};
+  int next_order_queue[4] = {0,0,0,0};
 
-    if(error != 0)
+  if(error != 0)
+  {
+    fprintf(stderr, "Unable to initialize hardware\n");
+    exit(1);
+  }
+
+  signal(SIGINT, sigint_handler);
+
+  printf("=== Example Program ===\n");
+  printf("Press the stop button on the elevator panel to exit\n");
+
+  //hardware_command_movement(HARDWARE_MOVEMENT_UP);
+
+  while(1)
+  {
+    while (state == Init)
     {
-        fprintf(stderr, "Unable to initialize hardware\n");
-        exit(1);
+      printf("Init\n");
+      hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+      read_floor();
+      if (at_floor)
+      {
+        hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+        state = Stationary_f;
+      }
     }
-
-    signal(SIGINT, sigint_handler);
-
-    printf("=== Example Program ===\n");
-    printf("Press the stop button on the elevator panel to exit\n");
-
-    //hardware_command_movement(HARDWARE_MOVEMENT_UP);
-
-    while(1)
-    {
-
-        while (state == Init)
-        {
-          printf("Init\n");
-
-          hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-          read_floor();
-          if (at_floor)
-          {
-            hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-            state = Stationary_f;
-          }
-        }
 
 //////////////////////////////////////////////////
 
-        while (state == Stationary_f)
-        {
-          printf("Stationary_f\n");
+  while (state == Stationary_f)
+  {
+    printf("Stationary_f\n");
 
-          ///////////////////////////////////
+    ///////////////////////////////////
 
-          for (int i = 0; i < 4; i ++){
-          	printf("%d", next_order_queue[i]);
+    for (int i = 0; i < 4; i ++)
+    {
+     	printf("%d", next_order_queue[i]);
+    }
+    printf("\n");
 
-          }
-          printf("\n");
+    /////////////////////////////////
 
-          /////////////////////////////////
-
-          //
-          read_floor();
-          //
-
-
-
-      	  hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-      	  last_direction = 0;
+    //
+    read_floor();
+    //
 
 
 
-          set_order_lights(1);
-          ////
-          if (at_floor){
-          	update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
-          }
-          ////
-
-          order_record(order_inside, order_up, order_down);
-          order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
-
-		      update_queue(next_order_queue, current_floor);
+    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    last_direction = 0;
 
 
-		      if (next_order_queue[0] > current_floor)
-		      {
-		  	       state = Up;
-		      }
+
+    set_order_lights(1);
+    ////
+    if (at_floor){
+      update_lights_and_orders(current_floor-1, order_inside, order_up, order_down);
+    }
+    ////
+
+    order_record(order_inside, order_up, order_down);
+    order_handler(order_inside, order_up, order_down, last_direction, next_order_queue, current_floor);
+
+		update_queue(next_order_queue, current_floor);
+
+		if (next_order_queue[0] > current_floor)
+		{
+		  state = Up;
+		}
 
 		      if ((next_order_queue[0] < current_floor) && next_order_queue[0])
 		      {
