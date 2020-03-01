@@ -1,7 +1,11 @@
 \hypertarget{Timer_8h}{}\section{source/\+Timer.h File Reference}
 \label{Timer_8h}\index{source/\+Timer.\+h@{source/\+Timer.\+h}}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+
+
+functions that setup timers used to open the door  
+
+
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -14,10 +18,32 @@ This graph shows which files directly or indirectly include this file\+:
 \mbox{\Hypertarget{Timer_8h_aaedac22c55880495505bf375e0e132c1}\label{Timer_8h_aaedac22c55880495505bf375e0e132c1}} 
 void \hyperlink{Timer_8h_aaedac22c55880495505bf375e0e132c1}{start\+\_\+timer} ()
 \begin{DoxyCompactList}\small\item\em Initializes a time with a set value since a given date (1/1 -\/ 1970) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{Timer_8h_a703d741dc9d367d9e2ca654e3c8a34be}\label{Timer_8h_a703d741dc9d367d9e2ca654e3c8a34be}} 
-int {\bfseries read\+\_\+timer} (int seconds)
-\end{DoxyCompactItemize}
+int \hyperlink{Timer_8h_a703d741dc9d367d9e2ca654e3c8a34be}{read\+\_\+timer} (int seconds)
+\begin{DoxyCompactList}\small\item\em Compares the difference between the time initizalized by {\ttfamily start\+\_\+timer} and the current time since the given date 1/1-\/1970 with {\ttfamily seconds}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-brief Timer for the elevator 
+functions that setup timers used to open the door 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{Timer_8h_a703d741dc9d367d9e2ca654e3c8a34be}\label{Timer_8h_a703d741dc9d367d9e2ca654e3c8a34be}} 
+\index{Timer.\+h@{Timer.\+h}!read\+\_\+timer@{read\+\_\+timer}}
+\index{read\+\_\+timer@{read\+\_\+timer}!Timer.\+h@{Timer.\+h}}
+\subsubsection{\texorpdfstring{read\+\_\+timer()}{read\_timer()}}
+{\footnotesize\ttfamily int read\+\_\+timer (\begin{DoxyParamCaption}\item[{int}]{seconds }\end{DoxyParamCaption})}
+
+
+
+Compares the difference between the time initizalized by {\ttfamily start\+\_\+timer} and the current time since the given date 1/1-\/1970 with {\ttfamily seconds}. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em seconds} & The number of seconds the function should return true.\\
+\hline
+\end{DoxyParams}
+1 if difference between times is smaller or equal than 3 seconds. Returns 0 otherwice 
+
+Definition at line 16 of file Timer.\+c.
+

@@ -18,19 +18,17 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 void \hyperlink{order__handler_8h_a778303313380fee1b1b85c7276ccc565}{swap} (int $\ast$next\+\_\+order\+\_\+queue, int a, int b)
 \begin{DoxyCompactList}\small\item\em A function made to swap a number at index a with a number at index b in an array. \end{DoxyCompactList}\item 
 void \hyperlink{order__handler_8h_ab332e70ab2804ea51f6785d03abc46a8}{order\+\_\+record} (int $\ast$inside, int $\ast$up, int $\ast$down)
-\begin{DoxyCompactList}\small\item\em A function made to record the orders that we give via the buttons and record them in the corresponding array. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em A function made to record the orders that we give via the buttons and record $\ast$them in the corresponding array. \end{DoxyCompactList}\item 
 void \hyperlink{order__handler_8h_a159acf8c0e75ec66c6e2d8f41bbb3df3}{order\+\_\+delete} (int $\ast$inside, int $\ast$up, int $\ast$down, int $\ast$next)
 \begin{DoxyCompactList}\small\item\em A function made to delete all the orders from the arrays. Used with the stop button. \end{DoxyCompactList}\item 
 void \hyperlink{order__handler_8h_a010a11a17a76600fcee792e16f64806e}{update\+\_\+lights\+\_\+and\+\_\+orders} (int floor, int $\ast$inside, int $\ast$up, int $\ast$down)
 \begin{DoxyCompactList}\small\item\em A function made to turn of the lights and orders when we arrive at a corresponding floor. \end{DoxyCompactList}\item 
 void \hyperlink{order__handler_8h_a007a8d621bc967016c1621937c095e5f}{update\+\_\+queue} (int $\ast$queue, int current\+\_\+floor)
-\begin{DoxyCompactList}\small\item\em A function made to turn of the lights and orders when we arrive at a corresponding floor. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{order__handler_8h_a8b444e8acd4d9949d10d7679256ac105}\label{order__handler_8h_a8b444e8acd4d9949d10d7679256ac105}} 
-void {\bfseries set\+\_\+order\+\_\+lights} (int i)
-\item 
-\mbox{\Hypertarget{order__handler_8h_acf5362396e06c352829f23d221d08059}\label{order__handler_8h_acf5362396e06c352829f23d221d08059}} 
-void {\bfseries order\+\_\+handler} (int $\ast$inside, int $\ast$up, int $\ast$down, int last\+\_\+direction, int $\ast$next\+\_\+order\+\_\+queue, int current\+\_\+floor, int state)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em A function made to delete the current\+\_\+floor from the list of next orders, so the elevator doesn\textquotesingle{}t go to the same floor twice. It sets the first number to 0, then it shifts all number except the first one spot to the left. \end{DoxyCompactList}\item 
+void \hyperlink{order__handler_8h_a8b444e8acd4d9949d10d7679256ac105}{set\+\_\+order\+\_\+lights} (int i)
+\begin{DoxyCompactList}\small\item\em A function made to set all order lights when the corresponding button is pushed. If i is one it will cycle through all button and lights the button if it is pushed. If i is 0 (used with the stop button) all the lights will be set low. \end{DoxyCompactList}\item 
+void \hyperlink{order__handler_8h_acf5362396e06c352829f23d221d08059}{order\+\_\+handler} (int $\ast$inside, int $\ast$up, int $\ast$down, int last\+\_\+direction, int $\ast$next\+\_\+order\+\_\+queue, int current\+\_\+floor, int state)
+\begin{DoxyCompactList}\small\item\em A function that decides the priority of the orders. It useds the following steps\+: \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -53,14 +51,55 @@ A function made to delete all the orders from the arrays. Used with the stop but
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in,out}  & {\em inside} & The array of the orders from inside the elevator\\
 \hline
-\mbox{\tt in,out}  & {\em up} & The array of the orders from outside the elevator going up\\
+\mbox{\tt in,out}  & {\em up} & The array of orders from outside the elevator going up\\
 \hline
-\mbox{\tt in,out}  & {\em down} & The array of the orders from outside the elevator going down \\
+\mbox{\tt in,out}  & {\em down} & The array of orders from outside the elevator going down\\
+\hline
+\mbox{\tt in,out}  & {\em next} & The array that contains the next orders \\
 \hline
 \end{DoxyParams}
 
 
 Definition at line 42 of file order\+\_\+handler.\+c.
+
+\mbox{\Hypertarget{order__handler_8h_acf5362396e06c352829f23d221d08059}\label{order__handler_8h_acf5362396e06c352829f23d221d08059}} 
+\index{order\+\_\+handler.\+h@{order\+\_\+handler.\+h}!order\+\_\+handler@{order\+\_\+handler}}
+\index{order\+\_\+handler@{order\+\_\+handler}!order\+\_\+handler.\+h@{order\+\_\+handler.\+h}}
+\subsubsection{\texorpdfstring{order\+\_\+handler()}{order\_handler()}}
+{\footnotesize\ttfamily void order\+\_\+handler (\begin{DoxyParamCaption}\item[{int $\ast$}]{inside,  }\item[{int $\ast$}]{up,  }\item[{int $\ast$}]{down,  }\item[{int}]{last\+\_\+direction,  }\item[{int $\ast$}]{next\+\_\+order\+\_\+queue,  }\item[{int}]{current\+\_\+floor,  }\item[{int}]{state }\end{DoxyParamCaption})}
+
+
+
+A function that decides the priority of the orders. It useds the following steps\+: 
+
+
+\begin{DoxyItemize}
+\item It checks if the direction is Up, Down or Stop. e.\+g. If the direction is up, it will only care about orders that are going up or from inside the elevator.
+\item The first for-\/loop is used to cycle through all the orders and it will only proceed if there is an order which is the job of the if-\/statement.
+\item The second for-\/loop is used to cycle through the next\+\_\+order\+\_\+queue to add the new orders, if an order to the same floor doesn\textquotesingle{}t already exit. Uesd to avoid duplicate orders.
+\item The secret sauce is the third if statement. It prioritises the orders to make the execution more streamlined. e.\+g. if the 3. floor inside is pushed and the 2. floor up afterwards, and the elevator is below the 2. floor, it will take the 2. floor before the 3. it compares the first order in the next\+\_\+order\+\_\+queue and with the other orders at swaps them if it will come to another floor first.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em current\+\_\+floor} & The floor we are currently at\\
+\hline
+\mbox{\tt in}  & {\em state} & The state we are currently in(Stationary\+\_\+f, Up ...)\\
+\hline
+\mbox{\tt in}  & {\em last\+\_\+direction} & The direction the elevator is travelling. 1= up, 2 = down, 0 = stop\\
+\hline
+\mbox{\tt in,out}  & {\em inside} & The array of the orders from inside the elevator\\
+\hline
+\mbox{\tt in,out}  & {\em up} & The array of the orders from outside the elevator going up\\
+\hline
+\mbox{\tt in,out}  & {\em down} & The array of the orders from outside the elevator going down\\
+\hline
+\mbox{\tt in,out}  & {\em next\+\_\+order\+\_\+queue} & The array that contains the next orders \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyItemize}
+
+Definition at line 130 of file order\+\_\+handler.\+c.
 
 \mbox{\Hypertarget{order__handler_8h_ab332e70ab2804ea51f6785d03abc46a8}\label{order__handler_8h_ab332e70ab2804ea51f6785d03abc46a8}} 
 \index{order\+\_\+handler.\+h@{order\+\_\+handler.\+h}!order\+\_\+record@{order\+\_\+record}}
@@ -70,7 +109,7 @@ Definition at line 42 of file order\+\_\+handler.\+c.
 
 
 
-A function made to record the orders that we give via the buttons and record them in the corresponding array. 
+A function made to record the orders that we give via the buttons and record $\ast$them in the corresponding array. 
 
 
 \begin{DoxyParams}[1]{Parameters}
@@ -84,6 +123,25 @@ A function made to record the orders that we give via the buttons and record the
 
 
 Definition at line 11 of file order\+\_\+handler.\+c.
+
+\mbox{\Hypertarget{order__handler_8h_a8b444e8acd4d9949d10d7679256ac105}\label{order__handler_8h_a8b444e8acd4d9949d10d7679256ac105}} 
+\index{order\+\_\+handler.\+h@{order\+\_\+handler.\+h}!set\+\_\+order\+\_\+lights@{set\+\_\+order\+\_\+lights}}
+\index{set\+\_\+order\+\_\+lights@{set\+\_\+order\+\_\+lights}!order\+\_\+handler.\+h@{order\+\_\+handler.\+h}}
+\subsubsection{\texorpdfstring{set\+\_\+order\+\_\+lights()}{set\_order\_lights()}}
+{\footnotesize\ttfamily void set\+\_\+order\+\_\+lights (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+A function made to set all order lights when the corresponding button is pushed. If i is one it will cycle through all button and lights the button if it is pushed. If i is 0 (used with the stop button) all the lights will be set low. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i} & This int decides if the lights should be set as normal(1) or reset at turned off(0) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 57 of file order\+\_\+handler.\+c.
 
 \mbox{\Hypertarget{order__handler_8h_a778303313380fee1b1b85c7276ccc565}\label{order__handler_8h_a778303313380fee1b1b85c7276ccc565}} 
 \index{order\+\_\+handler.\+h@{order\+\_\+handler.\+h}!swap@{swap}}
@@ -101,12 +159,12 @@ A function made to swap a number at index a with a number at index b in an array
 \hline
 \mbox{\tt in}  & {\em a} & An int that indicate the spot of the number we want to change\\
 \hline
-\mbox{\tt in}  & {\em b} & An int that indicate the spot of the number we want to change \\
+\mbox{\tt in}  & {\em b} & An int that indicate the spot of the number we want to change$>$ \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 101 of file order\+\_\+handler.\+c.
+Definition at line 104 of file order\+\_\+handler.\+c.
 
 \mbox{\Hypertarget{order__handler_8h_a010a11a17a76600fcee792e16f64806e}\label{order__handler_8h_a010a11a17a76600fcee792e16f64806e}} 
 \index{order\+\_\+handler.\+h@{order\+\_\+handler.\+h}!update\+\_\+lights\+\_\+and\+\_\+orders@{update\+\_\+lights\+\_\+and\+\_\+orders}}
@@ -141,20 +199,16 @@ Definition at line 89 of file order\+\_\+handler.\+c.
 
 
 
-A function made to turn of the lights and orders when we arrive at a corresponding floor. 
+A function made to delete the current\+\_\+floor from the list of next orders, so the elevator doesn\textquotesingle{}t go to the same floor twice. It sets the first number to 0, then it shifts all number except the first one spot to the left. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em floor} & The floor we are currently at\\
+\mbox{\tt in}  & {\em current\+\_\+floor} & The floor we are currently at\\
 \hline
-\mbox{\tt in,out}  & {\em inside} & The array of the orders from inside the elevator\\
-\hline
-\mbox{\tt in,out}  & {\em up} & The array of the orders from outside the elevator going up\\
-\hline
-\mbox{\tt in,out}  & {\em down} & The array of the orders from outside the elevator going down \\
+\mbox{\tt in,out}  & {\em queue} & The array that contains the next orders \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 112 of file order\+\_\+handler.\+c.
+Definition at line 115 of file order\+\_\+handler.\+c.
 

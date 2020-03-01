@@ -16,9 +16,9 @@ void door_logic(int *inside, int *up, int *down, int *next, int current_floor, i
 	hardware_command_door_open(1);
 	while(read_timer(3))
 	{
-		while (hardware_read_stop_signal())
-		{
-			hardware_command_stop_light(1);
+	  while (hardware_read_stop_signal())
+	  {
+	 	hardware_command_stop_light(1);
 			start_timer();
 		}
 

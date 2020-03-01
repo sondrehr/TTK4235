@@ -97,6 +97,9 @@ void update_lights_and_orders(int floor, int *inside, int *up, int *down)
 }
 
 
+/*
+Swapper to tall i et array
+*/
 
 void swap(int *next_order_queue, int a, int b)
 {
@@ -106,7 +109,7 @@ void swap(int *next_order_queue, int a, int b)
 }
 
 /*
-Sletter den nyeste ordren
+Sletter første ordren og skifter alle de neste ordrene ett hakk til venstre
 */
 
 void update_queue(int *queue, int current_floor)
